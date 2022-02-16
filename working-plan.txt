@@ -1,0 +1,48 @@
+WORKING PLAN
+
+In lieu of other documentation, this should capture the basic structure we're
+looking for.
+
+We decompose the problem into four distinct elements, which can be developed
+separately:
+
+(1) Preference estimation
+(2) Population simulation
+(3) Matching simulation
+(4) Result consolidation
+
+The general principle is that the four pieces should operate independently.
+The goal should be to export an object that can plug itself into the next
+piece. So, for example, step (1) Preference estimation should estimate
+preferences, save the estimate to a file, then provide a class/interface for
+loading the estimated preference parameters into (2) Population simulation.
+
+To dig into that paragraph, note that it's not as simple as, ``Estimate logit,
+then plug logit parameters into step (2).'' If we were only interested in
+logit this would be fine, however we might consider alternate preference
+models, or Bayesian analysis, in which case it's important that the population
+simulator has [effectively] an API into the preference estimator.
+
+As a sequence:
+
+[use leaked SFUSD preference data to estimate preference model]
+
+==> [save preference model]
+
+vvv
+
+[use Census/AHS data to simulate population of incoming kindergarteners]
++ [use preference model to simulate preferences]
+
+==> [save set of simulated populations]
+
+vvv
+
+[use suggested school choice mechanisms to simulate outcomes]
+
+==> [save set of outcomes]
+
+vvv
+
+[figure out set of summary statistics]
+
